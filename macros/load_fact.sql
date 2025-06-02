@@ -21,5 +21,6 @@ FROM (
     FROM @MY_S3_STAGE/fact.csv
 )
 FILE_FORMAT = MY_CSV_FORMAT
+ON_ERROR = 'SKIP_FILE'
 PURGE = {{ var('purge_status') }};
 {% endmacro %}
