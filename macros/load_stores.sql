@@ -5,7 +5,7 @@ FROM (
         $1 AS Store,
         $2 AS Type,
         $3 AS Size
-    FROM @MY_S3_STAGE/stores/
+    FROM @MY_S3_STAGE/stores.csv
 )
 FILE_FORMAT = MY_CSV_FORMAT
 PURGE = {{ var('purge_status') }};

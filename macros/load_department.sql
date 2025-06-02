@@ -7,7 +7,7 @@ FROM (
         $3 AS Date,
         $4 AS Weekly_Sales,
         $5 AS IsHoliday
-    FROM @MY_S3_STAGE/departments/
+    FROM @MY_S3_STAGE/department.csv
 )
 FILE_FORMAT = MY_CSV_FORMAT
 PURGE = {{ var('purge_status') }};

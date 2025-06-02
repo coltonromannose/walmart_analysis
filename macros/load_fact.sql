@@ -1,5 +1,5 @@
-{% macro load_facts() %}
-COPY INTO {{ var('rawhist_db') }}.{{ var('wrk_schema') }}.facts
+{% macro load_fact() %}
+COPY INTO {{ var('rawhist_db') }}.{{ var('wrk_schema') }}.fact
 FROM (
     SELECT
         $1 AS Store,
@@ -14,7 +14,7 @@ FROM (
         $10 AS CPI,
         $11 AS Unemployment,
         $12 AS IsHoliday
-    FROM @MY_S3_STAGE/facts/
+    FROM @MY_S3_STAGE/fact.csv
 )
 FILE_FORMAT = MY_CSV_FORMAT
 PURGE = {{ var('purge_status') }};
