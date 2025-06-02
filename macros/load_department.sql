@@ -1,4 +1,4 @@
-{% macro load_departments() %}
+{% macro load_department() %}
 COPY INTO {{ var('rawhist_db') }}.{{ var('wrk_schema') }}.WORK_DEPARTMENTS_COPY
 FROM (
     SELECT
