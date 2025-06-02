@@ -1,8 +1,8 @@
 {{ config(
     materialized = 'view',
     schema = 'BRONZE',
-    alias = 'DUMMY_LOAD_STORE',
-    pre_hook = load_stores()
+    alias = 'DUMMY_LOAD_DEPARTMENT',
+    pre_hook = load_department()
 ) }}
 
 
