@@ -44,6 +44,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   walmart_project:
+    bronze:
+      schema: bronze
+      materialized: view
     silver:
       schema: silver
       materialized: view
