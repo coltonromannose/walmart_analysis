@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+    - name: source
+      database: WALMARTDB 
+      schema: BRONZE
+      tables:
+        - name: WORK_STORES_COPY
+    - name: xfm
+      database: PC_DBT_DB
+      schema: SILVER
+      tables:
+        - name: WORK_STORES_TRANSFORM
