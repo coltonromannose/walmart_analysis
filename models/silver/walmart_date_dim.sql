@@ -5,14 +5,20 @@
     transient = true
 ) }}
 
-WITH Walmart_date_dim AS (
+WITH distinct_dates AS (
     SELECT 
-        ROW_NUMBER() OVER (ORDER BY DATE) AS Date_id,
-        CAST(date AS DATE) AS Store_date,
-        CAST(IsHoliday AS BOOLEAN) AS Is_holiday,
-        CAST(INSERT_DTS AS TIMESTAMP) AS Insert_date,
-        CAST(UPDATE_DTS AS TIMESTAMP) AS Update_date
+        DATE,
+        MAX(CASE WHEN IsHoliday THEN TRUE ELSE FALSE END) AS IsHoliday,
+        MAX(INSERT_DTS) AS Insert_date,
+        MAX(UPDATE_DTS) AS Update_date
     FROM WALMARTDB.BRONZE.WORK_DEPARTMENTS_COPY
+    GROUP BY DATE
 )
 
-SELECT * FROM Walmart_date_dim
+SELECT 
+    DENSE_RANK() OVER (ORDER BY DATE) AS Date_id,
+    CAST(DATE AS DATE) AS Store_date,
+    IsHoliday,
+    Insert_date,
+    Update_date
+FROM distinct_dates
