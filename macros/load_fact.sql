@@ -1,4 +1,6 @@
 {% macro load_fact() %}
+DELETE FROM {{ var('rawhist_db') }}.{{ var('wrk_schema') }}.WORK_FACTS_COPY;
+
 COPY INTO {{ var('rawhist_db') }}.{{ var('wrk_schema') }}.WORK_FACTS_COPY
 FROM (
   SELECT
@@ -21,7 +23,7 @@ FROM (
   FROM @{{ var('stage_name') }}/fact.csv
 )
 FILE_FORMAT = {{ var('file_format_csv') }}
-PURGE = {{ var('purge_status') }}
+PURGE = TRUE
 FORCE = TRUE
 ON_ERROR = 'CONTINUE';
 {% endmacro %}

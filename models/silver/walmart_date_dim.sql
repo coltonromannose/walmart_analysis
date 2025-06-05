@@ -1,12 +1,11 @@
-{{ config(
-    materialized = 'table',
-    schema = 'SILVER',
-    alias = 'WALMART_DATE_DIM',
-    transient = true
-) }}
-
 WITH distinct_dates AS (
-    SELECT 
+    SELECT DISTINCT
+        DATE
+    FROM WALMARTDB.BRONZE.WORK_DEPARTMENTS_COPY
+),
+
+holidays AS (
+    SELECT DISTINCT
         DATE,
         MAX(CASE WHEN IsHoliday THEN TRUE ELSE FALSE END) AS IsHoliday,
         MAX(INSERT_DTS) AS Insert_date,
@@ -16,9 +15,10 @@ WITH distinct_dates AS (
 )
 
 SELECT 
-    DENSE_RANK() OVER (ORDER BY DATE) AS Date_id,
-    CAST(DATE AS DATE) AS Store_date,
-    IsHoliday,
-    Insert_date,
-    Update_date
-FROM distinct_dates
+    DENSE_RANK() OVER (ORDER BY d.DATE) AS Date_id,
+    CAST(d.DATE AS DATE) AS Store_date,
+    COALESCE(h.IsHoliday, FALSE) AS IsHoliday,
+    h.Insert_date,
+    h.Update_date
+FROM distinct_dates d
+LEFT JOIN holidays h ON d.DATE = h.DATE

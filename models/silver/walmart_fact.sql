@@ -1,4 +1,3 @@
-
 {{ config(
     materialized = 'table',
     schema = 'silver'
@@ -22,15 +21,15 @@ WITH Walmart_fact_table AS (
         fr.markdown5,
         CURRENT_TIMESTAMP() AS insert_date,
         CURRENT_TIMESTAMP() AS update_date
-    FROM WALMARTDB.SILVER.WALMART_FACT_RAW fr
-    JOIN WALMARTDB.SILVER.WALMART_DEPARTMENT_DIM de
-      ON fr.date = de.date
-     AND fr.store = de.store
-    JOIN WALMARTDB.SILVER.WALMART_DATE_DIM d
+    FROM {{ ref('walmart_fact_raw') }} fr
+    JOIN {{ ref('walmart_date_dim') }} d
       ON fr.date = d.store_date
+    JOIN {{ ref('walmart_department_dim') }} de
+      ON d.Date_id = de.Date_id
+     AND fr.store = de.store
     JOIN (
         SELECT DISTINCT store_id, store_size
-        FROM WALMARTDB.SILVER.WALMART_STORE_DIM
+        FROM {{ ref('walmart_store_dim') }}
     ) st
       ON fr.store = st.store_id
 )
