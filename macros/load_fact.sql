@@ -20,7 +20,7 @@ FROM (
     CURRENT_TIMESTAMP() AS UPDATE_DTS,
     metadata$filename AS SOURCE_FILE_NAME,
     metadata$file_row_number AS SOURCE_FILE_ROW_NUMBER
-  FROM @{{ var('stage_name') }}/fact.csv
+  FROM @{{ var('stage_name') }}/fact_updated_test.csv
 )
 FILE_FORMAT = {{ var('file_format_csv') }}
 PURGE = TRUE
