@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: walmart_store_dim_gold
+    description: "Final gold copy of the store dimension table"
+
+  - name: walmart_date_dim_gold
+    description: "Final gold copy of the date dimension table"

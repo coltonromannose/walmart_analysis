@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: source
+    database: WALMARTDB 
+    schema: BRONZE
+    tables:
+      - name: WORK_STORES_COPY
+      - name: WORK_FACTS_COPY
+      - name: WORK_DEPARTMENTS_COPY
+
+  - name: xfm
+    database: PC_DBT_DB
+    schema: SILVER
+    tables:
+      - name: WORK_STORES_TRANSFORM
+
+models:
+  - name: walmart_store_dim
+    description: "Cleaned and modeled store data in the silver layer"
+  - name: walmart_fact
+    description: "Raw copy of the fact table moved from bronze to silver"
+  - name: walmart_department_dim
+    description: "Raw copy of department data from Bronze moved into Silver"
